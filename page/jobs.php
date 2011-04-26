@@ -7,14 +7,17 @@ class page_jobs extends Page {
         $categories=$this->add('Model_Category_Active')->getRows();
 
         foreach($categories as $category){
-            $p->add('H3')->set($category['name'].' ('.$category['job_count'].')');
-            $jobs = $p->add('JobList');
-            $jobs->setModel('Job_Public',array('location','position','company'))
-                ->addCondition('category_id',$category['id']);
-            $jobs->addFormatter('company','link');
-            $jobs->dq->limit(10);
+            $cj=$this->add('CategoryJobs')->setCategoryData($category);
+            $cj->jobs->dq->limit(10);
             if($category['job_count']>10){
-                $this->add('Button')->setLabel('Show More');
+                $category['job_count']-=10;
+                $cj->template->set($category);
+
+                $cj->template->set('url',
+                        $this->api->getDestinationURL('category/'.
+                            $category['name']));
+            }else{
+                $cj->template->del('more_link');
             }
         }
         //$jobs->addButton('Post a Job');
@@ -32,25 +35,5 @@ class page_jobs extends Page {
     }
     function defaultTemplate(){
         return array('page/jobs');
-    }
-}
-class JobList extends MVCGrid {
-    function format_link($field){
-
-        $parts=array(
-                $this->current_row['location'],
-                $this->current_row['company'],
-                $this->current_row['id'],
-                $this->current_row['position'],
-                );
-
-        $parts=preg_replace('/[^a-zA-Z 0-9-]/','',$parts);
-        $parts=preg_replace('/^$/','-',$parts);
-        $parts=str_replace(' ','_',$parts);
-        $page=implode('/',$parts);
-
-        $this->current_row[$field]='<a href="'.
-                    $this->api->getDestinationURL('job/'.$page).
-                    '">'.$this->current_row[$field].'</a>';
     }
 }
