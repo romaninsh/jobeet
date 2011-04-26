@@ -1,6 +1,7 @@
 <?php
 class Model_Job extends Model_Table {
     public $entity_code='job';
+    public $table_alias='j';
     function init(){
         parent::init();
 
@@ -20,5 +21,9 @@ class Model_Job extends Model_Table {
         $this->addField('created_dts')->datatype('datetime')->system(true);
         $this->addField('updated_dts')->datatype('datetime')->system(true);
         $this->addField('expires_at')->datatype('date');
+    }
+    function beforeInsert(&$data){
+        parent::beforeInsert($data);
+        $data['expires_at']=date('Y-m-d',strtotime('+'.$this->api->getConfig('job/expires','30 days')));
     }
 }

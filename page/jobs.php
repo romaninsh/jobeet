@@ -4,16 +4,25 @@ class page_jobs extends Page {
         parent::init();
         $p=$this;
 
-        $jobs = $this->add('JobList');
-        $jobs->setModel('Job',array('location','position','company'));
-        $jobs->addQuickSearch(array('location','position'));
-        $jobs->addButton('Post a Job');
+        $categories=$this->add('Model_Category_Active')->getRows();
 
-        $jobs->addFormatter('company','link');
+        foreach($categories as $category){
+            $p->add('H3')->set($category['name'].' ('.$category['job_count'].')');
+            $jobs = $p->add('JobList');
+            $jobs->setModel('Job_Public',array('location','position','company'))
+                ->addCondition('category_id',$category['id']);
+            $jobs->addFormatter('company','link');
+            $jobs->dq->limit(10);
+            if($category['job_count']>10){
+                $this->add('Button')->setLabel('Show More');
+            }
+        }
+        //$jobs->addButton('Post a Job');
+
     }
     function page_details(){
         $v=$this->add('View',null,null,array('view/job_details'));
-        $m=$v->setModel('Job')->loadData($_GET['id']);
+        $m=$v->setModel('Job_Public')->loadData($_GET['id']);
         $v->template->del('has_logo');
         $v->add('Button',null,'Buttons')->setLabel('Back')->js('click')->univ()->location(
             $this->api->getDestinationURL('..'));
