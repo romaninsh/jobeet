@@ -17,7 +17,7 @@ class Model_Job extends Model_Table {
         $this->addField('is_activated')->datatype('boolean');
         $this->addField('email');
 
-        $this->addField('created_dns')->datatype('datetime')->system(true);
+        $this->addField('created_dts')->datatype('datetime')->system(true);
         $this->addField('updated_dts')->datatype('datetime')->system(true);
         $this->addField('expires_at')->datatype('date');
     }
