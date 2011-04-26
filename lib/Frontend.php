@@ -30,6 +30,9 @@ class Frontend extends ApiFrontend {
 			// ->_load('ui.atk4_expander')
 			;
 
+        $this->add('Controller_Seo');
+        $this->template->tryDel('fullscreen');
+
 		// If you wish to restrict actess to your pages, use BasicAuth class
 		$this->add('BasicAuth')
 			->allow('demo','demo')
