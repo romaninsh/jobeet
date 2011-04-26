@@ -1,0 +1,7 @@
+RewriteEngine on
+RewriteRule jobs/details/(\d+)(-[^.]*)?.html$              index.php?page=jobs_details&id=$1    [L]
+RewriteRule job/[^/]*/[^/]*/(\d+)/([^.]*)?(.html)?$              index.php?page=jobs_details&id=$1    [L]
+RewriteRule ^(index.php.*)$      $1          [L]
+RewriteRule ^[^\.]*$            index.php    [L]
+RewriteRule .html$              index.php    [L]
+

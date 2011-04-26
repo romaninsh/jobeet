@@ -4,7 +4,7 @@ class page_jobs extends Page {
         parent::init();
         $p=$this;
 
-        $jobs = $this->add('MVCGrid');
+        $jobs = $this->add('JobList');
         $jobs->setModel('Job',array('location','position','company'));
         $jobs->addQuickSearch(array('location','position'));
         $jobs->addButton('Post a Job');
@@ -23,5 +23,25 @@ class page_jobs extends Page {
     }
     function defaultTemplate(){
         return array('page/jobs');
+    }
+}
+class JobList extends MVCGrid {
+    function format_link($field){
+
+        $parts=array(
+                $this->current_row['location'],
+                $this->current_row['company'],
+                $this->current_row['id'],
+                $this->current_row['position'],
+                );
+
+        $parts=preg_replace('/[^a-zA-Z 0-9-]/','',$parts);
+        $parts=preg_replace('/^$/','-',$parts);
+        $parts=str_replace(' ','_',$parts);
+        $page=implode('/',$parts);
+
+        $this->current_row[$field]='<a href="'.
+                    $this->api->getDestinationURL('job/'.$page).
+                    '">'.$this->current_row[$field].'</a>';
     }
 }
