@@ -32,6 +32,7 @@ class Frontend extends ApiFrontend {
 
         $this->add('Controller_Seo');
         $this->template->tryDel('fullscreen');
+        $this->js()->_load('ui.atk4_notify');
 
 		// If you wish to restrict actess to your pages, use BasicAuth class
 		$this->add('BasicAuth')
