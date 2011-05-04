@@ -16,11 +16,12 @@ class Model_Job extends Model_Table {
         $this->addField('how_to_apply')->datatype('text');
         $this->addField('is_public')->datatype('boolean');
         $this->addField('is_activated')->datatype('boolean');
+        $this->addField('token');
         $this->addField('email');
 
         $this->addField('created_dts')->datatype('datetime')->system(true);
         $this->addField('updated_dts')->datatype('datetime')->system(true);
-        $this->addField('expires_at')->datatype('date');
+        $this->addField('expires_at')->datatype('date')->system(true);
     }
     function beforeInsert(&$data){
         parent::beforeInsert($data);
