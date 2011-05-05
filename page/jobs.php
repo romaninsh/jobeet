@@ -1,7 +1,6 @@
 <?php
 class page_jobs extends Page {
     function initMainPage(){
-        parent::init();
         $p=$this;
 
         $jobs = $this->add('JobList');
