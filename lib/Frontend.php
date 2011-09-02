@@ -6,7 +6,7 @@ class Frontend extends ApiFrontend {
 	function init(){
 		parent::init();
 		// Keep this if you are going to use database on all pages
-		//$this->dbConnect();
+		$this->dbConnect();
 
 		// This will add some resources from atk4-addons, which would be located
         // in atk4-addons subdirectory.
@@ -30,49 +30,15 @@ class Frontend extends ApiFrontend {
 			// ->_load('ui.atk4_expander')
 			;
 
-		// If you wish to restrict actess to your pages, use BasicAuth class
-		$this->add('BasicAuth')
-			->allow('demo','demo')
-            // use check() and allowPage for white-list based auth checking
-			//->check()
-			;
-
-
-        // Initialize objects which you want to see on ALL of your pages in this method
-        // If you, however, want to place object only on a single page, then
-        // create page/mytestpage.php with class page_mytestpage and put objects
-        // into it's init() method.
-
-        // Menu:
 
 		// If you are using a complex menu, you can re-define
 		// it and place in a separate class
 		$m=$this->add('Menu',null,'Menu');
-		$m->addMenuItem('Welcome','index');
-		$m->addMenuItem('How Do I..?','how');
-		$m->addMenuItem('Database Test','dbtest');
-		$m->addMenuItem('Auth test','authtest');
-		$m->addMenuItem('about');
-		$m->addMenuItem('logout');
+		$m->addMenuItem('jobs');
 
-		// If you want to use ajax-ify your menu
-		// $m->js(true)->_load('ui.atk4_menu')->atk4_menu(array('content'=>'#Content'));
-
-        // Finally if you want to use a simple menu, you can either put it into shared.html
-        // or include it from other file
-        // $m=$this->add('Menu',null,'Menu',array('view/mymenu'));
-
-
-        // You need to call initLayout which will determine current page and load
-        // respective page/...php class.
-        $this->initLayout();
 	}
 
-	function page_pref($p){
-		$this->dbConnect();
-				
-		// This is example of how you can use form with MVC support
-		$p->frame('Preferences')->add('MVCForm')
-			->setController('Controller_User');
+	function page_index($p){
+        $this->redirect('jobs');
 	}
 }
