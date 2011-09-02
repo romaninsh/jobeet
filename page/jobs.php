@@ -25,6 +25,7 @@ class page_jobs extends Page {
         $v->template->del('has_logo');
         $v->add('Button',null,'Buttons')->setLabel('Back')->js('click')->univ()->location(
             $this->api->getDestinationURL('..'));
+        $v->add('Button',null,'Buttons')->setLabel('Edit')->js('click')->univ()->alert('TODO');
         $this->api->template->trySet('page_title',
                 sprintf('%s is looking for %s',$m->get('company'),$m->get('position')));
     }
