@@ -35,6 +35,7 @@ class Frontend extends ApiFrontend {
 		// it and place in a separate class
 		$m=$this->add('Menu',null,'Menu');
 		$m->addMenuItem('jobs');
+		$m->addMenuItem('test');
 
 	}
 
