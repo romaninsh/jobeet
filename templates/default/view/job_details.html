@@ -1,0 +1,28 @@
+  <h1><?$company?></h1>
+  <h2><?$location?></h2>
+  <h3>
+    <?$position?>
+    <small> - <?$type?></small>
+  </h3>
+ 
+  <?has_logo?>
+    <div class="logo">
+      <a href="<?$logo_url?>">
+        <img src="<?$logo?>" alt="<?$company?> logo" />
+      </a>
+    </div>
+  <?/?>
+ 
+  <div class="description">
+    <?$description?>
+  </div>
+ 
+  <h4>How to apply?</h4>
+ 
+  <p class="how_to_apply"><?$how_to_apply?></p>
+ 
+  <div class="meta">
+    <small>posted on <?$created_dts?></small>
+  </div>
+
+<?$Buttons?>
