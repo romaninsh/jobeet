@@ -5,26 +5,26 @@
 
    */
 class Model_User extends Model_Table {
-	public $entity_code='user';
+	public $table='user';
 
-	function defineFields(){
-		parent::defineFields();
+	function init(){
+		parent::init();
 
 		// Each field can have a varietty of properties. Please
 		// referr to FieldDefinition.php file for more information
 
-		$this->newField('email')
+		$this->addField('email')
 			->mandatory(true)
 			;
 
-		$this->newField('name')
+		$this->addField('name')
 			;
 
-		$this->newField('surname')
+		$this->addField('surname')
 			;
 
-		$this->newfield('gender')
-			->datatype('list')
+		$this->addfield('gender')
+			->type('list')
 			->listData(array('M'=>'Male','F'=>'Female'))
 			;
 
@@ -34,9 +34,6 @@ class Model_User extends Model_Table {
 
 
 		// You can also add relations between fileds
-		$this->newField('manager_id')
-			->datatype('reference')
-			->refModel('Model_User')
-			;
+		$this->hasOne('User','manager_id');
 	}
 }
