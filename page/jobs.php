@@ -24,7 +24,7 @@ class page_jobs extends Page {
         return array('page/jobs');
     }
 }
-class JobList extends MVCGrid {
+class JobList extends Grid {
     function format_link($field){
 
         $parts=array(
@@ -39,7 +39,7 @@ class JobList extends MVCGrid {
         $parts=str_replace(' ','_',$parts);
         $page=implode('/',$parts);
 
-        $this->current_row[$field]='<a href="'.
+        $this->current_row_html[$field]='<a href="'.
                     $this->api->getDestinationURL('job/'.$page).
                     '">'.$this->current_row[$field].'</a>';
     }
