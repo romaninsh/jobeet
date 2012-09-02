@@ -6,15 +6,9 @@ class Admin extends ApiFrontend {
         parent::init();
         $this->dbConnect();
         $l = $this->addLocation('..', array(
+                    'addons' => 'atk4-addons',
                     'php' => 'lib'
                 ));
-        $this->addLocation('atk4-addons', array(
-                    'php' => array(
-                        'mvc',
-                        'misc/lib',
-                    ),
-                ))
-                ->setParent($l);
 
         $this->add('jUI');
 
@@ -31,8 +25,6 @@ class Admin extends ApiFrontend {
         $m->addMenuItem('jobs');
         $m->addMenuItem('filestore');
         $m->addMenuItem('logout');
-
-        $this->initLayout();
     }
     function page_index($p) {
         $tabs=$p->add('Tabs');
@@ -61,7 +53,7 @@ class Admin extends ApiFrontend {
             $ids=$action_form->addField('hidden','ids');
             $crud->grid->addSelectable($ids);
             $d=$action_form->addSubmit('Delete Selected');
-            $d=$action_form->addSubmit('Extend Selected');
+            $e=$action_form->addSubmit('Extend Selected');
             $action_form->onSubmit(function($f) use ($crud,$d){
                 $ids=json_decode($f->get('ids'));
                 //$m=$crud->grid->getModel()->dsql(null,false)->where('id in',$ids)->do_delete();
