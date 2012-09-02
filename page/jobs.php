@@ -3,7 +3,7 @@ class page_jobs extends Page {
     function initMainPage(){
         $p=$this;
 
-        $categories=$this->add('Model_Category_Active')->getRows();
+        $categories=$this->add('Model_Category_Active');
 
         foreach($categories as $category){
             $p->add('H3')->set($category['name'].' ('.$category['job_count'].')');
@@ -33,7 +33,7 @@ class page_jobs extends Page {
         return array('page/jobs');
     }
 }
-class JobList extends MVCGrid {
+class JobList extends Grid {
     function format_link($field){
 
         $parts=array(
@@ -48,7 +48,7 @@ class JobList extends MVCGrid {
         $parts=str_replace(' ','_',$parts);
         $page=implode('/',$parts);
 
-        $this->current_row[$field]='<a href="'.
+        $this->current_row_html[$field]='<a href="'.
                     $this->api->getDestinationURL('job/'.$page).
                     '">'.$this->current_row[$field].'</a>';
     }
