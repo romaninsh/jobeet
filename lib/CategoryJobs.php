@@ -32,7 +32,7 @@ class JobList extends MVCGrid {
         $parts=str_replace(' ','_',$parts);
         $page=implode('/',$parts);
 
-        $this->current_row[$field]='<a href="'.
+        $this->current_row_html[$field]='<a href="'.
                     $this->api->getDestinationURL('job/'.$page,array('name'=>null)).
                     '">'.$this->current_row[$field].'</a>';
     }

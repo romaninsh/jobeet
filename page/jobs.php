@@ -3,7 +3,7 @@ class page_jobs extends Page {
     function initMainPage(){
         $p=$this;
 
-        $categories=$this->add('Model_Category_Active')->getRows();
+        $categories=$this->add('Model_Category_Active');
 
         foreach($categories as $category){
             $cj=$this->add('CategoryJobs')->setCategoryData($category);

@@ -7,17 +7,6 @@ class Frontend extends ApiFrontend {
 		parent::init();
 		// Keep this if you are going to use database on all pages
 		$this->dbConnect();
-
-		// This will add some resources from atk4-addons, which would be located
-        // in atk4-addons subdirectory.
-		$this->addLocation('atk4-addons',array(
-					'php'=>array(
-                        'mvc',
-						'misc/lib',
-						)
-					))
-			->setParent($this->pathfinder->base_location);
-
 		// A lot of the functionality in Agile Toolkit requires jUI
 		$this->add('jUI');
 

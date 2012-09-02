@@ -1,7 +1,6 @@
 <?php
 class Model_Category extends Model_Table {
-    public $entity_code='category';
-    public $table_alias='c';
+    public $table='category';
     function init(){
         parent::init();
 

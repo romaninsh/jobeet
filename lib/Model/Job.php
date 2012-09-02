@@ -1,30 +1,30 @@
 <?php
 class Model_Job extends Model_Table {
-    public $entity_code='job';
-    public $table_alias='j';
+    public $table='job';
     function init(){
         parent::init();
 
-        $this->addField('category_id')->refModel('Model_Category');
+        $this->hasOne('Category');
         $this->addField('type');
         $this->addField('company');
         $this->addField('logo');
         $this->addField('url');
         $this->addField('position');
         $this->addField('location');
-        $this->addField('description')->datatype('text');
-        $this->addField('how_to_apply')->datatype('text');
-        $this->addField('is_public')->datatype('boolean');
-        $this->addField('is_activated')->datatype('boolean');
+        $this->addField('description')->type('text');
+        $this->addField('how_to_apply')->type('text');
+        $this->addField('is_public')->type('boolean');
+        $this->addField('is_activated')->type('boolean');
         $this->addField('token');
         $this->addField('email');
 
-        $this->addField('created_dts')->datatype('datetime')->system(true);
-        $this->addField('updated_dts')->datatype('datetime')->system(true);
-        $this->addField('expires_at')->datatype('date')->system(true);
+        $this->addField('created_dts')->type('datetime')->system(true);
+        $this->addField('updated_dts')->type('datetime')->system(true);
+        $this->addField('expires_at')->type('date')->system(true);
+
+        $this->addHook('beforeSave',$this);
     }
-    function beforeInsert(&$data){
-        parent::beforeInsert($data);
-        $data['expires_at']=date('Y-m-d',strtotime('+'.$this->api->getConfig('job/expires','30 days')));
+    function beforeSave(){
+        $this['expires_at']=date('Y-m-d',strtotime('+'.$this->api->getConfig('job/expires','30 days')));
     }
 }
