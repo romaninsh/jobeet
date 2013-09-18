@@ -1,6 +1,6 @@
 <?php
 class page_jobs extends Page {
-    function initMainPage(){
+    function page_index(){
         $p=$this;
 
         $jobs = $this->add('Grid');
@@ -12,10 +12,10 @@ class page_jobs extends Page {
     }
     function page_company(){
         $v=$this->add('View',null,null,array('view/job_details'));
-        $m=$v->setModel('Job')->loadData($_GET['id']);
+        $m=$v->setModel('Job')->tryLoad($_GET['id']);
         $v->template->del('has_logo');
         $v->add('Button',null,'Buttons')->setLabel('Back')->js('click')->univ()->location(
-            $this->api->getDestinationURL('..'));
+            $this->api->url('..'));
         $v->add('Button',null,'Buttons')->setLabel('Edit')->js('click')->univ()->alert('TODO');
         $this->api->template->trySet('page_title',
                 sprintf('%s is looking for %s',$m->get('company'),$m->get('position')));
