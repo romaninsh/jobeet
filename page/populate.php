@@ -5,11 +5,11 @@ class page_populate extends Page {
 
         $category_id=$this->add('Model_Category')
             ->set('name','Category '.rand(10,99))
-            ->update();
+            ->save();
 
         $m=$this->add('Model_Job');
         for($i=0;$i<30;$i++){
-            $m->unloadData();
+            $m->unload();
             $m->set(array(
                         'category_id'=>$category_id,
                         'company'=>'Company '.$i,
@@ -21,7 +21,7 @@ class page_populate extends Page {
                         'is_activated'=>true,
                         'email'=>'job@example.com'
                         ));
-            $m->update();
+            $m->save();
         }
         echo "Done";
         exit;
