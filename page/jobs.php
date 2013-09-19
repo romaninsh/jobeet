@@ -4,7 +4,7 @@ class page_jobs extends Page {
         parent::init();
         $this->api->stickyGET('token');
     }
-    function initMainPage(){
+    function page_index(){
         $p=$this;
 
         $categories=$this->add('Model_Category_Active');
@@ -17,7 +17,7 @@ class page_jobs extends Page {
                 $cj->template->set($category);
 
                 $cj->template->set('url',
-                        $this->api->getDestinationURL('category/'.
+                        $this->api->url('category/'.
                             $category['name']));
             }else{
                 $cj->template->del('more_link');
@@ -28,10 +28,10 @@ class page_jobs extends Page {
     }
     function page_details(){
         $v=$this->add('View',null,null,array('view/job_details'));
-        $m=$v->setModel('Job_Public')->loadData($_GET['id']);
+        $m=$v->setModel('Job_Public')->tryLoad($_GET['id']);
         $v->template->del('has_logo');
         $v->add('Button',null,'Buttons')->setLabel('Back')->js('click')->univ()->location(
-            $this->api->getDestinationURL('..'));
+            $this->api->url('..'));
         $v->add('Button',null,'Buttons')->setLabel('Edit')->js('click')->univ()->alert('TODO');
         $this->api->template->trySet('page_title',
                 sprintf('%s is looking for %s',$m->get('company'),$m->get('position')));
@@ -43,18 +43,18 @@ class page_jobs extends Page {
         if($token){
             $row=$m->getBy('token',$token);
             if(!$row)throw $this->exception('Invalid token');
-            $m->loadData($row['id']);
+            $m->tryLoad($row['id']);
         }
 
-        $f=$this->add('MVCForm');
+        $f=$this->add('Form');
         $f->setModel($m);
         $f->onSubmit(function($f){
             if(strlen($f->get('company'))<5){
                 throw $f->exception('Company name is too short')->setField('company');
             }
             $f->update();
-            return $f->js()->univ()->location($f->api->getDestinationURL('../preview',
-                    array('token'=>$f->getController()->get('token'))));
+            return $f->js()->univ()->location($f->api->url('../preview',
+                    array('token'=>$f->get('token'))));
         });
     }
     function page_edit(){
@@ -70,16 +70,16 @@ class page_jobs extends Page {
         // Load token data
         $row=$m->getBy('token',$_GET['token']);
         if(!$row)throw $this->exception('Invalid token');
-        $m->loadData($row['id']);
+        $m->tryLoad($row['id']);
 
         $v=$this->add('View',null,null,array('view/job_details'));
         $v->setModel($m);
 
         $v->add('Button',null,'Buttons')->setLabel('Edit')->js('click')->univ()->location(
-            $this->api->getDestinationURL('../edit'));
+            $this->api->url('../edit'));
 
         if($v->add('Button',null,'Buttons')->setLabel('Publish')->isClicked('Are you sure?')){
-            $m->set('is_public',true)->update();
+            $m->set('is_public',true)->save();
 
             $parts=array(
                     $m->get('location'),
@@ -93,7 +93,7 @@ class page_jobs extends Page {
             $parts=str_replace(' ','_',$parts);
             $page=implode('/',$parts);
 
-            $this->js()->univ()->location($this->api->getDestinationURL(
+            $this->js()->univ()->location($this->api->url(
                         'job/'.$page,array('token'=>false)))->execute();
         }
     }
