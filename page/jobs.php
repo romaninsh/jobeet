@@ -1,6 +1,6 @@
 <?php
 class page_jobs extends Page {
-    function initMainPage(){
+    function page_index(){
         $p=$this;
 
         $categories=$this->add('Model_Category_Active');
@@ -21,10 +21,10 @@ class page_jobs extends Page {
     }
     function page_details(){
         $v=$this->add('View',null,null,array('view/job_details'));
-        $m=$v->setModel('Job_Public')->loadData($_GET['id']);
+        $m=$v->setModel('Job_Public')->tryLoad($_GET['id']);
         $v->template->del('has_logo');
         $v->add('Button',null,'Buttons')->setLabel('Back')->js('click')->univ()->location(
-            $this->api->getDestinationURL('..'));
+            $this->api->url('..'));
         $v->add('Button',null,'Buttons')->setLabel('Edit')->js('click')->univ()->alert('TODO');
         $this->api->template->trySet('page_title',
                 sprintf('%s is looking for %s',$m->get('company'),$m->get('position')));
@@ -49,7 +49,7 @@ class JobList extends Grid {
         $page=implode('/',$parts);
 
         $this->current_row_html[$field]='<a href="'.
-                    $this->api->getDestinationURL('job/'.$page).
+                    $this->api->url('job/'.$page).
                     '">'.$this->current_row[$field].'</a>';
     }
 }
