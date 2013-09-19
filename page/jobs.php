@@ -1,6 +1,6 @@
 <?php
 class page_jobs extends Page {
-    function initMainPage(){
+    function page_index(){
         $p=$this;
 
         $categories=$this->add('Model_Category_Active');
@@ -13,7 +13,7 @@ class page_jobs extends Page {
                 $cj->template->set($category);
 
                 $cj->template->set('url',
-                        $this->api->getDestinationURL('category/'.
+                        $this->api->url('category/'.
                             $category['name']));
             }else{
                 $cj->template->del('more_link');
@@ -24,10 +24,10 @@ class page_jobs extends Page {
     }
     function page_details(){
         $v=$this->add('View',null,null,array('view/job_details'));
-        $m=$v->setModel('Job_Public')->loadData($_GET['id']);
+        $m=$v->setModel('Job_Public')->tryLoad($_GET['id']);
         $v->template->del('has_logo');
         $v->add('Button',null,'Buttons')->setLabel('Back')->js('click')->univ()->location(
-            $this->api->getDestinationURL('..'));
+            $this->api->url('..'));
         $v->add('Button',null,'Buttons')->setLabel('Edit')->js('click')->univ()->alert('TODO');
         $this->api->template->trySet('page_title',
                 sprintf('%s is looking for %s',$m->get('company'),$m->get('position')));
