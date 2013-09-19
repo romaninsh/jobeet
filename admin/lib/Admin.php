@@ -34,13 +34,13 @@ class Admin extends ApiFrontend {
         $crud->setModel('Job_Admin',null,array('id','category','type','company','position','location',
                     'is_public','is_activated','expires_at','email'));
         if($crud->grid){
-            $crud->grid->addPaginator();
+            $crud->grid->add('Paginator');
             $crud->grid->getColumn('type')->makeSortable();
             $crud->grid->getColumn('location')->makeSortable();
             $crud->grid->dq->field('description');
             $crud->grid->addColumn('button','extend');
             if($_GET['extend']){
-                $new_expires=$crud->grid->getModel()->loadData($_GET['extend'])
+                $new_expires=$crud->grid->getModel()->tryLoad($_GET['extend'])
                     ->extend()->get('expires_at');
                 $new_expires=date($this->api->getConfig('locale/date','d/m/Y'),
                                         strtotime($new_expires));
