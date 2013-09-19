@@ -40,7 +40,7 @@ class JobList extends Grid {
         $page=implode('/',$parts);
 
         $this->current_row_html[$field]='<a href="'.
-                    $this->api->getDestinationURL('job/'.$page).
+                    $this->api->url('job/'.$page).
                     '">'.$this->current_row[$field].'</a>';
     }
 }
